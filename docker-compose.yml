@@ -1,0 +1,31 @@
+version: '3' 
+services:
+ mysql-server:
+  container_name: mysql-server
+  image: mysql/mysql-server
+  ports:
+   - 3600:3600
+  volumes:
+   - ./mysql/server/lib:/var/lib/mysql
+   - ./mysql/server/config:/etc/conf.d
+  environment:
+   - MYSQL_ROOT_HOST=%
+   - MYSQL_ROOT_PASSWORD=password
+   - MYSQL_USER=mysql-workbench
+   - MYSQL_PASSWORD=mysql-workbench-password
+   - MYSQL_DATABASE=databasetocreate
+   
+ mysql-workbench:
+  depends_on:
+   - mysql-server
+  container_name: mysql-workbench
+  image: lscr.io/linuxserver/mysql-workbench
+  ports:
+   - 3000:3000
+  volumes:
+   - ./mysql/workbench/config:/config
+  environment:
+   - PUID=1000
+   - PGID=1000
+  cap_add:
+   - IPC_LOCK
