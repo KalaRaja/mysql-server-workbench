@@ -1,2 +1,2 @@
-./mysq
-.docker.compose.yml.swp
+/mysql
+\.docker-compose.yml.swp
