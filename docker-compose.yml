@@ -14,6 +14,8 @@ services:
    - MYSQL_USER=mysql-workbench
    - MYSQL_PASSWORD=mysql-workbench-password
    - MYSQL_DATABASE=databasetocreate
+  networks:
+   - mysql-network
    
  mysql-workbench:
   depends_on:
@@ -24,8 +26,15 @@ services:
    - 3000:3000
   volumes:
    - ./mysql/workbench/config:/config
+   - ./mysql/workbench/queries:/queries
   environment:
    - PUID=1000
    - PGID=1000
   cap_add:
    - IPC_LOCK
+  networks:
+   - mysql-network
+   
+# creating networks because default network doesnt support hyphen in the name
+networks:
+ mysql-network:
