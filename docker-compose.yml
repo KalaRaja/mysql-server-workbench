@@ -13,7 +13,7 @@ services:
    - MYSQL_ROOT_PASSWORD=password
    - MYSQL_USER=mysql-workbench
    - MYSQL_PASSWORD=mysql-workbench-password
-   - MYSQL_DATABASE=databasetocreate
+   - MYSQL_DATABASE=expensetracker
   networks:
    - mysql-network
    
@@ -26,7 +26,6 @@ services:
    - 3000:3000
   volumes:
    - ./mysql/workbench/config:/config
-   - ./mysql/workbench/queries:/queries
   environment:
    - PUID=1000
    - PGID=1000
