@@ -1,0 +1,55 @@
+
+USE expensetracker;
+
+DROP TABLE IF EXISTS user;
+DROP TABLE IF EXISTS expense;
+DROP TABLE IF EXISTS status;
+DROP TABLE IF EXISTS expensehistory;
+DROP TABLE IF EXISTS activity;
+DROP TABLE IF EXISTS category;
+
+CREATE TABLE IF NOT EXISTS user (
+    id VARCHAR(50) NOT NULL PRIMARY KEY UNIQUE,
+    firstname VARCHAR(50) NOT NULL,
+    lastname VARCHAR(50) NOT NULL,
+    email VARCHAR(50) NOT NULL UNIQUE,
+    username VARCHAR(50) NOT NULL,
+    password VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS expense (
+	id VARCHAR(50) NOT NULL PRIMARY KEY UNIQUE,
+	title VARCHAR(50) NOT NULL,
+	description VARCHAR(50),
+	cost DOUBLE NOT NULL,
+	date DATETIME,
+	byuserid VARCHAR(50) REFERENCES user (id),
+	foruserid VARCHAR(50) REFERENCES user (id),
+    categoryid VARCHAR(50) NOT NULL REFERENCES category (id)
+);
+
+CREATE TABLE IF NOT EXISTS status (
+	id VARCHAR(50) NOT NULL PRIMARY KEY UNIQUE,
+	name VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS category (
+    id VARCHAR(50) NOT NULL PRIMARY KEY UNIQUE,
+    name VARCHAR(50) NOT NULL,
+    ispermanent BOOLEAN
+);
+
+CREATE TABLE IF NOT EXISTS expensehistory(
+	id VARCHAR(50) NOT NULL PRIMARY KEY UNIQUE,
+	status VARCHAR(50) NOT NULL REFERENCES status (id),
+	oldid VARCHAR(50) REFERENCES expense (id),
+	newid VARCHAR(50) REFERENCES expense (id)
+);
+
+CREATE TABLE IF NOT EXISTS activity (
+	id VARCHAR(50) NOT NULL PRIMARY KEY UNIQUE,
+	expensehistoryid VARCHAR(50) REFERENCES expensehistory (id),
+	byuserid VARCHAR(50) REFERENCES user (id),
+	date DATETIME
+);
+
